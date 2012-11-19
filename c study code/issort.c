@@ -33,10 +33,7 @@ int issort(void *data, int size, int esize, int (*compare)(const void *key1, con
 
 int compare_int(const void *key1, const void *key2)
 {
-	if (*(int *)key1 > *(int *)key2)
-		return 1;
-	else
-		return 0;
+	return *(int *)key1 - *(int *)key2;
 }
 
 int main(int argc, char *argv[])
