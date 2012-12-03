@@ -3,10 +3,11 @@
 
 #include "list.h"
 
-void list_init(List *list, void (*destory)(void *data))
+void list_init(List *list, void (*destory)(void *data), int (*match)(const void *key1, const void *key2))
 {
     list->size = 0;
 	list->destory = destory;
+	list->match = match;
 	list->head = NULL;
 	list->tail = NULL;
 
@@ -77,7 +78,7 @@ int list_rem_next(List *list, ListElmt *element, void **data)
     else
 	{
 	    if (element->next == NULL)
-		    return -1
+		    return -1;
 	    
 		*data = element->next->data;
 		old_element = element->next;
