@@ -14,10 +14,34 @@ void dlist_init(DList *list, void (*destroy)(void *data), int (*match)(const *vo
 
 void dlist_destroy(DList *list)
 {
-
-
+    void *data;
+	
+	/* Remove each element */
+	while (dlist_size(list) > 0)
+	{
+		if (dlist_remove(list, dlist_tail(list), &data) == 0)
+		    && list->destory != NULL)
+		{
+			/* Call a user-defined function to free dynamically allocated data. */
+			list->destory(data);
+		}
+	}
+	
+	memset(list, 0, sizeof(DList));
+	return;
 }
 
+int dlist_ins_next(DList *list, DListElmt *element, const void *data)
+{
+
+    return 0;
+}
+
+int dlist_ins_prev(DList *list, DListElmt *element, const void *data)
+{
+
+	return 0;
+}
 int dlist_remove(DList *list, DListElmt *element, void **data)
 {
 	if (element == NULL || dlist_size(list) == 0)
