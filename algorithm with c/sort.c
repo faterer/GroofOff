@@ -95,6 +95,24 @@ void insertion_sort(int a[], int n)
     }
 }
 
+void shell_sort(int a[], int n)
+{
+	int i,j,increment;
+	int tmp;
+	
+	for(increment = n/2; increment > 0; increment /= 2)
+		for(i = increment; i < n; i++)
+		{
+			tmp = a[i];
+			for(j = i; i >= increment; j -= increment)
+				if(tmp < a[j - increment])
+					a[j] = a[j - increment];
+				else
+					break;
+			a[j] = tmp;
+		}
+}
+
 int main()
 {
     int a[] = {2,1,5,8,4,6};
