@@ -4,35 +4,39 @@
 //
 //  Created by carol on 2/25/15.
 //  Copyright (c) 2015 carol. All rights reserved.
-//
+//  gcc -O -Wall -W -pedantic -ansi -std=c99 -o sort sort.c
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
-void quick_sort(int a[], int right, int left)
+// From The C programming Language
+void swap(int v[], size_t i, int j)
 {
-    int i = right;
-    int j = left;
-    int key = a[i];
-    
-    if (i >= j)
+    int temp;
+    temp = v[i];
+    v[i] = v[j];
+    v[j] = temp;
+}
+
+void quick_sort(int v[], int left, int right)
+{
+    int i, last;
+
+    if (left >= right)
         return;
-    
-    while (i != j) {
-        while (i < j && key <= a[j]) {
-            j--;
+    swap(v, left, (left + right) / 2);
+    last = left;
+    for (i = left + 1; i <= right; i++)
+    {
+        if (v[i] < v[left]) {
+            swap(v, ++last, i);
         }
-        a[i] = a[j];
-        while (i < j && key >= a[i]) {
-            i++;
-        }
-        a[j] = a[i];
     }
-    a[i] = key;
-    quick_sort(a, right, i-1);
-    quick_sort(a, i+1, left);
+    swap(v, left, last);
+    quick_sort(v, left, last - 1);
+    quick_sort(v, last + 1, right);
 }
 
 int binary_search(int a[], int key, int n)
@@ -117,7 +121,7 @@ int main()
 {
     int a[] = {2,1,5,8,4,6};
     quick_sort(a, 0, ARRAY_SIZE(a)-1);
-    for (int i=0;i<ARRAY_SIZE(a);i++)
+    for (size_t i=0;i<ARRAY_SIZE(a);i++)
         printf("%d,", a[i]);
     printf("\n");
     
@@ -134,22 +138,22 @@ int main()
         printf("%d is in array\n", key);
     
     shuffle_array(a, ARRAY_SIZE(a));
-    for (int i=0;i<ARRAY_SIZE(a);i++)
+    for (size_t i=0;i<ARRAY_SIZE(a);i++)
         printf("%d,", a[i]);
     printf("\n");
     
     bubble_sort(a, ARRAY_SIZE(a));
-    for (int i=0;i<ARRAY_SIZE(a);i++)
+    for (size_t i=0;i<ARRAY_SIZE(a);i++)
         printf("%d,", a[i]);
     printf("\n");
     
     shuffle_array(a, ARRAY_SIZE(a));
-    for (int i=0;i<ARRAY_SIZE(a);i++)
+    for (size_t i=0;i<ARRAY_SIZE(a);i++)
     printf("%d,", a[i]);
     printf("\n");
     
     insertion_sort(a, ARRAY_SIZE(a));
-    for (int i=0;i<ARRAY_SIZE(a);i++)
+    for (size_t i=0;i<ARRAY_SIZE(a);i++)
         printf("%d,", a[i]);
     printf("\n");
     
