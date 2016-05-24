@@ -106,13 +106,14 @@ int BM(char *x, int m, char *y, int n) {
 
 int main(int argc, char const *argv[])
 {
-	char *s1 = "ASIMPLEEXAMPLE  BABCDAB";
+	char *s1 = "HERE IS A SIMPLE EXAMPLE BABCDAB";
    //HERE IS A SIMPLE EXAMPLE  BABCDAB
    //BABCDABBABCDABBABCDABBABCDAB
 	char *s2 = "BABCDAB";
    char *s3 = "EXAMPLE";
 	int idx1 = strStr(s1, s2);
-   int idx2 = strStr(s1, s3);
-   //printf("%s\n", s1+idx);
+   //int idx2 = strStr(s1, s3);
+   printf("%s\n", s1+idx1);
+   //printf("%s\n", s1+idx2);
 	return 0;
 }
