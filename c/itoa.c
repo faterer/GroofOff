@@ -23,7 +23,7 @@ void reverse(char s[])
    }
 }
 
-void itoa(int value, char buf[])
+void itoa_1(int value, char buf[])
 {
 	int i = value;
 	int lsd;
@@ -43,7 +43,7 @@ void itoa(int value, char buf[])
 	reverse(buf);
 }
 
-void itoa(int n, char buf[])
+void itoa_2(int n, char s[])
 {
 	int sign;
 	int i = 0;
@@ -53,7 +53,7 @@ void itoa(int n, char buf[])
 
 	do
 	{
-		s[i++] = n % 10 - '0';
+		s[i++] = n % 10 + '0';
 	} while ((n = n / 10) > 0);
 
 	if (sign < 0)
@@ -69,9 +69,13 @@ int main()
    char s1[10];
    char s2[10];
 
-   itoa(a1, s1);
+   itoa_1(a1, s1);
    printf("%s\n", s1);
-   itoa(a2, s2);
+   itoa_1(a2, s2);
+   printf("%s\n", s2);
+   itoa_2(a1, s1);
+   printf("%s\n", s1);
+   itoa_2(a2, s2);
    printf("%s\n", s2);
    return 0;
 }

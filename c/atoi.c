@@ -34,6 +34,32 @@ int atoi(char* s)
 	return r;
 }
 
+int atoi_2(char* s)
+{
+	int r = 0;
+	int n = 0;
+	int neg = 0;
+    
+	switch(*s) {
+        case '-':
+            neg = 1;
+        case '+':
+            s++;
+            break;
+	}    
+    
+	while (*s >= '0' && *s <= '9') {
+		n = *s++ - '0';
+		r = r * 10 + n;
+	}
+    
+	if (neg)
+		r = -r;
+    
+	return r;
+}
+
+
 int main()
 {
 	char *s1 = "1234";
