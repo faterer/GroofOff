@@ -39,6 +39,29 @@ void quick_sort(int v[], int left, int right)
     quick_sort(v, last + 1, right);
 }
 
+
+void quick_sort_2(int a[], int left, int right)
+{
+    int i = left;
+    int j = right;
+    int x = a[i];
+
+    if (i >= j)
+        return;
+
+    while(i != j) {
+        while(i < j && a[j] >= x)
+            j--;
+        a[i] = a[j];
+        while(i < j && a[i] <= x)
+            i++;
+        a[j] = a[i];
+    }
+    a[i] = x;
+    quick_sort_2(a, left, i - 1);
+    quick_sort_2(a, i + 1, right);
+}
+
 int binary_search(int a[], int key, int n)
 {
     int mid;
@@ -120,7 +143,8 @@ void shell_sort(int a[], int n)
 int main()
 {
     int a[] = {2,1,5,8,4,6};
-    quick_sort(a, 0, ARRAY_SIZE(a)-1);
+    quick_sort_2(a, 0, ARRAY_SIZE(a)-1);
+    printf("quick_sort_2: ");
     for (size_t i=0;i<ARRAY_SIZE(a);i++)
         printf("%d,", a[i]);
     printf("\n");
@@ -143,6 +167,7 @@ int main()
     printf("\n");
     
     bubble_sort(a, ARRAY_SIZE(a));
+    printf("bubble_sort: ");
     for (size_t i=0;i<ARRAY_SIZE(a);i++)
         printf("%d,", a[i]);
     printf("\n");
@@ -153,6 +178,18 @@ int main()
     printf("\n");
     
     insertion_sort(a, ARRAY_SIZE(a));
+    printf("insertion_sort: ");
+    for (size_t i=0;i<ARRAY_SIZE(a);i++)
+        printf("%d,", a[i]);
+    printf("\n");
+
+    shuffle_array(a, ARRAY_SIZE(a));
+    for (size_t i=0;i<ARRAY_SIZE(a);i++)
+    printf("%d,", a[i]);
+    printf("\n");
+
+    shell_sort(a, ARRAY_SIZE(a));
+    printf("shell_sort: ");
     for (size_t i=0;i<ARRAY_SIZE(a);i++)
         printf("%d,", a[i]);
     printf("\n");
