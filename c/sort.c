@@ -113,10 +113,10 @@ void shuffle_array(int arr[], int len)
 void insertion_sort(int a[], int n)
 {
     int i,j,tmp;
-    for(i=1;i<n;i++)
+    for(i = 1; i < n; i++)
     {
         tmp = a[i];
-        for (j=i;j>0&&a[j-1]>tmp;j--)
+        for (j = i; j > 0 && a[j - 1] > tmp; j--)
             a[j] = a[j-1];
         a[j] = tmp;
     }
@@ -139,7 +139,7 @@ void shell_sort(int a[], int n)
 			a[j] = tmp;
 		}
 }
-
+ 
 int main()
 {
     int a[] = {2,1,5,8,4,6};
