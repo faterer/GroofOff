@@ -17,6 +17,9 @@ let StartingRow = 0
 let PreviewColumn = 12
 let PreviewRow = 1
 
+let PointsPerLine = 10
+let LevelThreshold = 500
+
 protocol SwiftrisDelegate {
     // Invoked when the current round of Swiftris ends
     func gameDidEnd(swiftris: Swiftris)
@@ -45,6 +48,9 @@ class Swiftris {
     // GameViewController will attach itself as the delegate to update the user interface and react
     // to game state changes whenever something occurs inside of the Swifitris class
     var delegate:SwiftrisDelegate?
+
+    var score = 0
+    var level = 1
     
     init() {
         fallingShape = nil
@@ -181,8 +187,83 @@ class Swiftris {
     }
 
     func endGame() {
+        score = 0
+        level = 1
         delegate?.gameDidEnd(self)
     }
+
+    func removeCompletedLines() -> (linesRemoved: Array<Array<Block>>, fallenBlocks: Array<Array<Block>>) {
+        var removedLines = Array<Array<Block>>()
+        for row in (1..<NumRows).reverse() {
+            var rowOfBlocks = Array<Block>()
+
+            for column in 0..<NumColumns {
+                guard let block = blockArray[column, row] else {
+                    continue
+                }
+                rowOfBlocks.append(block)
+            }
+            if rowOfBlocks.count == NumColumns {
+                removedLines.append(rowOfBlocks)
+                for block in rowOfBlocks {
+                    blockArray[block.column, block,row] = nil
+                }
+            }
+        }
+
+        if removeLines.count == 0 {
+            return ([], [])
+        }
+
+        let pointsEarned = removedLines.count * PointsPerLine * level
+        score += pointsEarned
+        if score >= level * LevelThrehold {
+            level += 1
+            delegate?.gameDidLevelUp(self)
+        }
+
+        var fallenBlocks = Array<Array<Block>>()
+        for column in 0..<NumColumns {
+            var fallenBlocksArray = Array<Block>()
+
+            for row in (1..<removeLines[0][0].row).reverse() {
+                guard let block = blockArray[column, row] else {
+                    continue
+                }
+                var newRow = row
+                while (newRow < NumRows - 1 && blockArray[column, newRow + 1] == nil) {
+                    newRow += 1
+                }
+                block.row = newRow
+                blockArray[column, row] = nil
+                blockArray[column, newRow] = block
+                fallenBlocksArray.append(block)
+            }
+            if fallenBlocksArray.count > 0 {
+                fallenBlocks.append(fallenBlocksArray)
+            }
+        }
+        return (removeLines, fallenBlocks)
+    }
+
+    func removeAllBlocks() -> Array<Array<Block>> {
+        var allBlocks = Array<Array<Block>>()
+        for row in 0..<NumRows {
+            var rowOfBlocks = Array<Block>()
+            for column in 0..<NumColumns {
+                guard let block = blockArray[column, row] else {
+                    continue
+                }
+                rowOfBlocks.append(block)
+                blockArray[column, row] = nil
+            }
+            allBlocks.append(rowOfBlocks)
+        }
+        return allBlocks
+    }
+
+
+
 
     func dropShape() {
         guard let shape = fallingShape else {
