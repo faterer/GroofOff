@@ -82,7 +82,7 @@ class Swiftris {
             nextShape = fallingShape
             nextShape!.moveTo(PreviewColumn, row: PreviewRow)
             endGame()
-            return (fallingShape, nextShape)
+            return (nil, nil)
         }
         return (fallingShape, nextShape)
     }
@@ -206,18 +206,18 @@ class Swiftris {
             if rowOfBlocks.count == NumColumns {
                 removedLines.append(rowOfBlocks)
                 for block in rowOfBlocks {
-                    blockArray[block.column, block,row] = nil
+                    blockArray[block.column, block.row] = nil
                 }
             }
         }
 
-        if removeLines.count == 0 {
+        if removedLines.count == 0 {
             return ([], [])
         }
 
         let pointsEarned = removedLines.count * PointsPerLine * level
         score += pointsEarned
-        if score >= level * LevelThrehold {
+        if score >= level * LevelThreshold {
             level += 1
             delegate?.gameDidLevelUp(self)
         }
@@ -226,7 +226,7 @@ class Swiftris {
         for column in 0..<NumColumns {
             var fallenBlocksArray = Array<Block>()
 
-            for row in (1..<removeLines[0][0].row).reverse() {
+            for row in (1..<removedLines[0][0].row).reverse() {
                 guard let block = blockArray[column, row] else {
                     continue
                 }
@@ -243,7 +243,7 @@ class Swiftris {
                 fallenBlocks.append(fallenBlocksArray)
             }
         }
-        return (removeLines, fallenBlocks)
+        return (removedLines, fallenBlocks)
     }
 
     func removeAllBlocks() -> Array<Array<Block>> {
@@ -261,9 +261,6 @@ class Swiftris {
         }
         return allBlocks
     }
-
-
-
 
     func dropShape() {
         guard let shape = fallingShape else {

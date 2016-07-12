@@ -17,9 +17,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="CVH-bg-IaX" appends="YES" id="nem-bD-CuP"/>
+                        </connections>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="CVH-bg-IaX">
+                    <connections>
+                        <action selector="didTap:" destination="BV1-FR-VrT" id="eAe-f7-VcN"/>
+                        <outlet property="delegate" destination="BV1-FR-VrT" id="tce-PM-mUu"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
         </scene>
     </scenes>
