@@ -11,7 +11,6 @@
 #define BUFFER_SIZE 1024
 
 //gcc -o echo_server echo_server.c -lm ev.o
-
 void read_cb(struct ev_loop *loop, struct ev_io *watcher, int revents)
 {
 	char buffer[BUFFER_SIZE];
@@ -113,10 +112,6 @@ int main()
 		ev_loop(loop, 0);
 	}
 	
-	return 0;
-	
-	
-	
-	
-}
+	return 0;	
 
+}

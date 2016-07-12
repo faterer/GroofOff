@@ -5,13 +5,12 @@
 int main()
 {
 	time_t tv;
-	struct tm tm_v;
+	struct tm time_tm;
 	struct tm *p;
 	char *wday[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-	memset((void *)&tm_v, 0 ,sizeof(struct tm));
+	memset((void *)&time_tm, 0 ,sizeof(struct tm));
 	tv = time(NULL);
-	p = localtime_r(&tv, &tm_v);
-	printf("current second: %ld\n", tv);
-	printf ("%d-%d-%d ", (1900+p->tm_year), (1+p->tm_mon), p->tm_mday);
-    printf("%s %d:%d:%d\n", wday[p->tm_wday], p->tm_hour, p->tm_min, p->tm_sec);
+	p = localtime_r(&tv, &time_tm);
+	printf("localtime: %ld - %04d-%02d-%02d %02d:%02d:%02d\n", tv, (1900+time_tm.tm_year),
+                   (1+time_tm.tm_mon),(time_tm.tm_mday),(time_tm.tm_hour),(time_tm.tm_min),(time_tm.tm_sec));
 }
