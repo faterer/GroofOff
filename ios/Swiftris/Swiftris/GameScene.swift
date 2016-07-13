@@ -1,4 +1,4 @@
-//
+
 //  GameScene.swift
 //  Swiftris
 //
@@ -8,21 +8,38 @@
 
 import SpriteKit
 
-// we define the point size of each block sprite, in our case 20.0 * 20.0,
-// the lower of the available resolution option for each block image. We also
-// declare a layer position which will give us an offset from the edge of the 
-// screen
+// we define the point size of each block sprite, in our case 
+// 20.0 * 20.0, the lower of the available resolution option 
+// for each block image. We alsodeclare a layer position 
+// which will give us an offset from the edge of the screen
 let BlockSize:CGFloat = 20.0
+// we define a new constant, TickLengthLevelOne. This variable will
+// represent the slowest speed at which our shapes will travel.
+// We've set it to 600 millisecond, which means that every 6/10ths
+// of a second, our shape should descend by one row.
 let TickLengthLevelOne = NSTimeInterval(600)
 
 class GameScene: SKScene {
     
-    // we've introduced a couple of SKNode(s) which act as superimposed layer of activity within our scene.
-    // The gameLayer sits above the background visuals and the shapeLayer sits atop that.
+    // we've introduced a couple of SKNode(s) which act as 
+    // superimposed layer of activity within our scene.
+    // The gameLayer sits above the background visuals 
+    // and the shapeLayer sits atop that.
     let gameLayer = SKNode()
     let shapeLayer = SKNode()
     let LayerPosition = CGPoint(x: 6, y: -6)
     
+    // you can see we've defined some variables. tickLengthMillis and 
+    // lastTick look like declaration we've seen before: one being the
+    // GameScene's current tick length, set TickLengthLevelOne by default,
+    // and the other will track the last time we experienced a tick,
+    // an NSDate object.
+    // tick:(()->())? looks horifying...tick is what's known as a closure
+    // in Swift. A closure is essentially a block of code that performs a
+    // funcation, and Swift refers to funcation as closure. In defining tick,
+    // its type is (() -> ())? which means that it's a closure which take no
+    // parameters and returns nothing. Its question mark indicate that it's 
+    // optional and may be nil.
     var tick:(()->())?
     var tickLengthMillis = TickLengthLevelOne
     var lastTick:NSDate?
@@ -54,6 +71,15 @@ class GameScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        // we'll put our new member variables to work. 
+        // Swift's guard statement checks the conditions which follow it,
+        // let lastTick = lastTick in our case. If the conditions fail,
+        // guard executes the else block. if lastTick is missing, the game
+        // is in a paused state and not reporting elapsed ticks, so we return.
+        // But if lastTick is present, we recover the time passed since the last
+        // execution of update by invoking timeIntervalSinceNow on our lastTick
+        // object. We multiply the result by -1000 to calcute a positive millisecond
+        // value. We invoke functions on object using dot syntax in Swift.
         guard let lastTick = lastTick else {
             return
         }
@@ -63,7 +89,9 @@ class GameScene: SKScene {
             tick?()
         }
     }
-    
+    // we provide accessor methods to let external classes stop and start the 
+    // ticking process, something we'll make use of later to keep pieces from 
+    // falling at key moments.
     func startTicking() {
         lastTick = NSDate()
     }
@@ -72,10 +100,12 @@ class GameScene: SKScene {
         lastTick = nil
     }
     
-    // we've written GameScene's most important function, pointForColumn. This function returns the precise
-    // coordinate on the screen for where a block sprite belongs based on its row and column position. The
-    // match here looks funky but know that we anchor each sprite as its center, so we need to find the 
-    // center coordinates before placing it in our shapeLayer object
+    // we've written GameScene's most important function, pointForColumn. 
+    // This function returns the precise coordinate on the screen for 
+    // where a block sprite belongs based on its row and column position. 
+    // The match here looks funky but know that we anchor each sprite as 
+    // its center, so we need to find the center coordinates before placing 
+    // it in our shapeLayer object
     func pointForColumn(column:Int, row: Int) -> CGPoint {
         let x = LayerPosition.x + (CGFloat(column) * BlockSize) + (BlockSize / 2)
         let y = LayerPosition.y - ((CGFloat(row) * BlockSize) + (BlockSize) / 2)
