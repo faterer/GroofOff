@@ -112,9 +112,10 @@ class GameScene: SKScene {
         return CGPointMake(x, y)
     }
     
-    // we've created a method which will add a shape for the first time to the scene as a preview shape.
-    // We use a dictionary to store copies of re-usable SKTexture objects since each shape will require
-    // more than one copy of the same image.
+    // we've created a method which will add a shape for the first time to
+    // the scene as a preview shape. We use a dictionary to store copies of
+    // re-usable SKTexture objects since each shape will require more than
+    // one copy of the same image.
     func addPreviewShapeToScene(shape:Shape, completion:() -> ()) {
         for block in shape.blocks {
             var texture = textureCache[block.spriteName]
@@ -123,7 +124,7 @@ class GameScene: SKScene {
                 textureCache[block.spriteName] = texture
             }
             
-            let sprite =  SKSpriteNode(texture: texture)
+            let sprite = SKSpriteNode(texture: texture)
             // we use our convenient pointForColumn method to place each block's sprite in the proper
             // location. We start it at row - 2, such that the preview piece animates smoothly into
             // place from a higher location

@@ -84,6 +84,7 @@ class Swiftris {
             endGame()
             return (nil, nil)
         }
+        
         return (fallingShape, nextShape)
     }
     
@@ -104,62 +105,6 @@ class Swiftris {
             }
         }
         return false
-    }
-    
-    func letShapeFall() {
-        guard let shape = fallingShape else {
-            return
-        }
-        shape.lowerShapeByOneRow()
-        if detectIllegalPlacement() {
-            shape.raiseShapeByOneRow()
-            if detectIllegalPlacement() {
-                endGame()
-            } else {
-                settleShape()
-            }
-        } else {
-            delegate?.gameShapeDidMove(self)
-            if detectTouch() {
-                settleShape()
-            }
-        }
-    }
-    
-    func rotateShape() {
-        guard let shape = fallingShape else {
-            return
-        }
-        shape.rotateClockwise()
-        guard detectIllegalPlacement() == false else {
-            shape.rotateCounterClockwise()
-            return
-        }
-        delegate?.gameShapeDidMove(self)
-    }
-    
-    func moveShapeLeft() {
-        guard let shape = fallingShape else {
-            return
-        }
-        shape.shiftLeftByOneColumn()
-        guard detectIllegalPlacement() == false else {
-            shape.shiftRightByOneColumn()
-            return
-        }
-        delegate?.gameShapeDidMove(self)
-    }
-    
-    func moveShapeRight() {
-        guard let shape = fallingShape else {
-            return
-        }
-        shape.shiftRightByOneColumn()
-        guard detectIllegalPlacement() == false else {
-            shape.shiftLeftByOneColumn()
-            return
-        }
-        delegate?.gameShapeDidMove(self)
     }
     
     func settleShape() {
@@ -271,5 +216,61 @@ class Swiftris {
         }
         shape.raiseShapeByOneRow()
         delegate?.gameShapeDidDrop(self)
+    }
+    
+    func letShapeFall() {
+        guard let shape = fallingShape else {
+            return
+        }
+        shape.lowerShapeByOneRow()
+        if detectIllegalPlacement() {
+            shape.raiseShapeByOneRow()
+            if detectIllegalPlacement() {
+                endGame()
+            } else {
+                settleShape()
+            }
+        } else {
+            delegate?.gameShapeDidMove(self)
+            if detectTouch() {
+                settleShape()
+            }
+        }
+    }
+    
+    func rotateShape() {
+        guard let shape = fallingShape else {
+            return
+        }
+        shape.rotateClockwise()
+        guard detectIllegalPlacement() == false else {
+            shape.rotateCounterClockwise()
+            return
+        }
+        delegate?.gameShapeDidMove(self)
+    }
+    
+    func moveShapeLeft() {
+        guard let shape = fallingShape else {
+            return
+        }
+        shape.shiftLeftByOneColumn()
+        guard detectIllegalPlacement() == false else {
+            shape.shiftRightByOneColumn()
+            return
+        }
+        delegate?.gameShapeDidMove(self)
+    }
+    
+    func moveShapeRight() {
+        guard let shape = fallingShape else {
+            return
+        }
+        shape.shiftRightByOneColumn()
+        guard detectIllegalPlacement() == false else {
+            shape.shiftLeftByOneColumn()
+            return
+        }
+        delegate?.gameShapeDidMove(self)
     }
 }
