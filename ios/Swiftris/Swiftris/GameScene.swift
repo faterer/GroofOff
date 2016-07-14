@@ -84,11 +84,22 @@ class GameScene: SKScene {
             return
         }
         let timePassed = lastTick.timeIntervalSinceNow * -1000.0
+        // we then check if the time passed has exceeded our tickLengthMillis
+        // variable. if enough time has elapsed, we must report a tick. We do 
+        // so by first updating our last known tick time to the present and 
+        // then invoking our closure.
+        // By placing a ? after the variable name, we are asking Swift to first
+        // check if tick exist and if so, invoke it with no parameters. It's
+        // shorthand for the following statements:
+        // if tick != nil {
+        //     tick!()
+        // }
         if timePassed > tickLengthMillis {
             self.lastTick = NSDate()
             tick?()
         }
     }
+
     // we provide accessor methods to let external classes stop and start the 
     // ticking process, something we'll make use of later to keep pieces from 
     // falling at key moments.
@@ -125,21 +136,23 @@ class GameScene: SKScene {
             }
             
             let sprite = SKSpriteNode(texture: texture)
-            // we use our convenient pointForColumn method to place each block's sprite in the proper
-            // location. We start it at row - 2, such that the preview piece animates smoothly into
-            // place from a higher location
+            // we use our convenient pointForColumn method to place each block's 
+            // sprite in the proper location. We start it at row - 2, such that 
+            // the preview piece animates smoothly into place from a higher location
             sprite.position = pointForColumn(block.column, row: block.row - 2)
             shapeLayer.addChild(sprite)
             block.sprite = sprite
             
             // Animation
             sprite.alpha = 0
-            // we introduce SKAction objects which are responsible for visually manipulating SKNode objects
-            // Each block will fade and move into place as it appears as part of the next piece. It will
-            // move two rows down and fade from complete transparency to 70% opacity
-            // This small design choice lets the player ignore the preview piece if they so choose since
-            // it will be duller than the active moving piece. The remaining two methods make use of the
-            // same SKAction objects to move and redraw each block for a given shape
+            // we introduce SKAction objects which are responsible for visually 
+            // manipulating SKNode objects Each block will fade and move into 
+            // place as it appears as part of the next piece. It will move two 
+            // rows down and fade from complete transparency to 70% opacity
+            // This small design choice lets the player ignore the preview piece 
+            // if they so choose since it will be duller than the active moving 
+            // piece. The remaining two methods make use of the same SKAction 
+            // objects to move and redraw each block for a given shape.
             let moveAction = SKAction.moveTo(pointForColumn(block.column, row: block.row), duration: NSTimeInterval(0.2))
             moveAction.timingMode = .EaseOut
             let fadeInAction = SKAction.fadeAlphaTo(0.7, duration: 0.4)
