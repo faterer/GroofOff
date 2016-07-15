@@ -6,8 +6,9 @@
 //  Copyright © 2016 mai.wang. All rights reserved.
 //
 
-// we've defined the total number of rows and columns on the game board, the location of where each
-// piece starts and the location of where the preview piece belongs.
+// we've defined the total number of rows and columns on the game board, 
+// the location of where each piece starts and the location of where the 
+// preview piece belongs.
 let NumColumns = 10
 let NumRows = 20
 
@@ -44,9 +45,10 @@ class Swiftris {
     var blockArray:Array2D<Block>
     var nextShape:Shape?
     var fallingShape:Shape?
-    // Swiftris notifies the delegate of events throughout the course of the game. In our case, 
-    // GameViewController will attach itself as the delegate to update the user interface and react
-    // to game state changes whenever something occurs inside of the Swifitris class
+    // Swiftris notifies the delegate of events throughout the course 
+    // of the game. In our case, GameViewController will attach itself 
+    // as the delegate to update the user interface and react to game 
+    // state changes whenever something occurs inside of the Swifitris class
     var delegate:SwiftrisDelegate?
 
     var score = 0
@@ -65,10 +67,12 @@ class Swiftris {
         delegate?.gameDidBegin(self)
     }
     
-    // we have a method which assigns nextShape, our preview shape, as fallingShape. fallingShape is
-    // the moving Tetromino. newShape() then creates a new preview shape before moving fallingShape to
-    // the starting row and column. This method returns a tuple of optional Shape objects - we'll see
-    // why in a later checkpoint
+    // we have a method which assigns nextShape, our preview shape, 
+    // as fallingShape. fallingShape is the moving Tetromino. 
+    // newShape() then creates a new preview shape before moving 
+    // fallingShape to the starting row and column. 
+    // This method returns a tuple of optional Shape objects - 
+    // we'll see why in a later checkpoint
     func newShape() -> (fallingShape:Shape?, nextShape:Shape?) {
         fallingShape = nextShape
         nextShape = Shape.random(PreviewColumn, startingRow: PreviewRow)
