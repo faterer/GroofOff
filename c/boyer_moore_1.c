@@ -95,6 +95,7 @@ void make_delta2(int *delta2, uint8_t *pat, int32_t patlen) {
         }
         delta2[p] = last_prefix_index + (patlen - 1 - p);
     }
+    
     for(int i = 0; i < patlen; i++)
     printf("%d,", delta2[i]);
     printf("\n");
@@ -107,7 +108,7 @@ void make_delta2(int *delta2, uint8_t *pat, int32_t patlen) {
     }
 }
 
-uint8_t* boyer_moore (uint8_t *string, uint32_t stringlen, uint8_t *pat, uint32_t patlen) {
+uint8_t* boyer_moore(uint8_t *string, uint32_t stringlen, uint8_t *pat, uint32_t patlen) {
     int i;
     int delta1[ALPHABET_LEN];
     int *delta2 = (int *)malloc(patlen * sizeof(int));
@@ -130,8 +131,8 @@ uint8_t* boyer_moore (uint8_t *string, uint32_t stringlen, uint8_t *pat, uint32_
             free(delta2);
             return (string + i+1);
         }
-        printf("Bc:%d\n", delta1[string[i]]);
-        printf("Gs:%d\n", delta2[j]);
+        printf("Gs=%d\n", delta2[j]);
+        printf("Bc=%d\n", delta1[string[i]]);
         int k = max(delta1[string[i]], delta2[j]);
         i += k;
         printf("%d\n", k);
@@ -142,11 +143,11 @@ uint8_t* boyer_moore (uint8_t *string, uint32_t stringlen, uint8_t *pat, uint32_
 int main(int argc, char const *argv[])
 {
     char *s1 = "HERE IS A SIMPLE EXAMPLE BABCDAB";
-    //char *s2 = "BABCDAB";
-    char *s3 = "EXAMPLE";
-    //char *idx1 = (char *)boyer_moore((uint8_t*)s1, (uint32_t)strlen(s1), (uint8_t*)s2, (uint32_t)strlen(s2));
-    char *idx2 = (char *)boyer_moore((uint8_t*)s1, (uint32_t)strlen(s1), (uint8_t*)s3, (uint32_t)strlen(s3));
-    //printf("%s\n", idx1);
-    printf("%s\n", idx2);
+    char *s2 = "BABCDAB";
+    //char *s3 = "EXAMPLE";
+    char *idx1 = (char *)boyer_moore((uint8_t*)s1, (uint32_t)strlen(s1), (uint8_t*)s2, (uint32_t)strlen(s2));
+    //char *idx2 = (char *)boyer_moore((uint8_t*)s1, (uint32_t)strlen(s1), (uint8_t*)s3, (uint32_t)strlen(s3));
+    printf("%s\n", idx1);
+    //printf("%s\n", idx2);
     return 0;
 }

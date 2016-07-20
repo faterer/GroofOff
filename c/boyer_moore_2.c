@@ -53,10 +53,6 @@ void preBmGs(char *x, int m, int bmGs[]) {
    int *suff = (int *)malloc(m * sizeof(int));
  
    suffixes(x, m, suff);
-   printf("suff:");
-   for(i = 0; i < m; i++)
-      printf("%d,", suff[i]);
-   printf("\n");
    for (i = 0; i < m; ++i)
       bmGs[i] = m;
    j = 0;
@@ -110,10 +106,11 @@ int main(int argc, char const *argv[])
    //HERE IS A SIMPLE EXAMPLE  BABCDAB
    //BABCDABBABCDABBABCDABBABCDAB
 	char *s2 = "BABCDAB";
-   char *s3 = "EXAMPLE";
+//        char *s3 = "EXAMPLE";
 	int idx1 = strStr(s1, s2);
-   //int idx2 = strStr(s1, s3);
-   printf("%s\n", s1+idx1);
+//   int idx2 = strStr(s1, s3);
+   //printf("%s\n", s1+idx1);
    //printf("%s\n", s1+idx2);
+       printf("idx=%d\n",idx1);
 	return 0;
 }
