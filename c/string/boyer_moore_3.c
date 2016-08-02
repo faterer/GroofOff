@@ -4,7 +4,7 @@
 #include <string.h>
 
 #define ALPHABET_LEN 256
-#define NOT_FOUND patlen
+#define NOT_FOUND needlelen
 #define max(a, b) ((a < b) ? b : a)
 
 #define PRINT_TABLE(table, len) \
@@ -14,13 +14,13 @@ do {\
     printf("\n");\
 }while(0)
 
-void make_delta1(int *delta1, uint8_t *pat, int32_t patlen) {
+void make_badcharacter(int *badcharacter, uint8_t *needle, int32_t needlelen) {
     int i;
     for (i = 0; i < ALPHABET_LEN; i++) {
-        delta1[i] = NOT_FOUND;
+        badcharacter[i] = NOT_FOUND;
     }
-    for (i = 0; i < patlen - 1; i++) {
-        delta1[pat[i]] = patlen - 1 - i;
+    for (i = 0; i < needlelen - 1; i++) {
+        badcharacter[needle[i]] = needlelen - 1 - i;
     }
 }
 
@@ -48,62 +48,62 @@ int suffix_length(uint8_t *word, int wordlen, int pos) {
     return i;
 }
 
-void make_delta2(int *delta2, uint8_t *pat, int32_t patlen) {
+void make_goodsuffix(int *goodsuffix, uint8_t *needle, int32_t needlelen) {
     int p;
-    int last_prefix_index = patlen - 1;
+    int last_prefix_index = needlelen - 1;
 
     // first loop
-    for (p = patlen - 1; p >= 0; p--) {
-        if (is_prefix(pat, patlen, p + 1)) {
+    for (p = needlelen - 1; p >= 0; p--) {
+        if (is_prefix(needle, needlelen, p + 1)) {
             last_prefix_index = p + 1;
         }
-        delta2[p] = last_prefix_index + patlen - 1 - p;
+        goodsuffix[p] = last_prefix_index + needlelen - 1 - p;
     }
-    PRINT_TABLE(delta2, patlen);
+    PRINT_TABLE(goodsuffix, needlelen);
     // second loop
-    for (p = 0; p < patlen - 1; p++) {
-        int slen = suffix_length(pat, patlen, p);
-        if (pat[p - slen] != pat[patlen - 1 - slen]) {
-            delta2[patlen - 1 - slen] = patlen - 1 - p + slen;
+    for (p = 0; p < needlelen - 1; p++) {
+        int slen = suffix_length(needle, needlelen, p);
+        if (needle[p - slen] != needle[needlelen - 1 - slen]) {
+            goodsuffix[needlelen - 1 - slen] = needlelen - 1 - p + slen;
         }
     }
-    PRINT_TABLE(delta2, patlen);
+    PRINT_TABLE(goodsuffix, needlelen);
 }
 
-uint8_t* boyer_moore (uint8_t *string, uint32_t stringlen, uint8_t *pat, uint32_t patlen) {
+uint8_t* boyer_moore (uint8_t *haystack, uint32_t haystacklen, uint8_t *needle, uint32_t needlelen) {
     int i,j;
-    int delta1[ALPHABET_LEN];
-    int *delta2 = (int *)malloc(patlen * sizeof(int));
-    make_delta1(delta1, pat, patlen);
-    make_delta2(delta2, pat, patlen);
+    int badcharacter[ALPHABET_LEN];
+    int *goodsuffix = (int *)malloc(needlelen * sizeof(int));
+    make_badcharacter(badcharacter, needle, needlelen);
+    make_goodsuffix(goodsuffix, needle, needlelen);
 
-    // The empty pattern must be considered specially
-    if (patlen == 0) return string;
+    // The empty needletern must be considered specially
+    if (needlelen == 0) return haystack;
 
     j = 0;
-    while (j <= stringlen - patlen) {
-        printf("%s\n", string);
+    while (j <= haystacklen - needlelen) {
+        printf("%s\n", haystack);
         for(int s = 0; s < j; s++) printf(" ");
-        printf("%s\n", pat);
-        for (i = patlen - 1; i >= 0 && string[j+i] == pat[i]; --i);
+        printf("%s\n", needle);
+        for (i = needlelen - 1; i >= 0 && haystack[j+i] == needle[i]; --i);
         if (i < 0) {
-            free(delta2);
-            return (string + j);
+            free(goodsuffix);
+            return (haystack + j);
         }
         else {
-            printf("GsMoveStep=%d\n", delta2[i] - patlen + 1 + i);
-            printf("BcMoveStep=%d\n", delta1[string[j+i]] - patlen + 1 + i);
-            int k = max(delta1[string[j+i]] - patlen + 1 + i, delta2[i] - patlen + 1 + i);
+            printf("GsMoveStep=%d\n", goodsuffix[i] - needlelen + 1 + i);
+            printf("BcMoveStep=%d\n", badcharacter[haystack[j+i]] - needlelen + 1 + i);
+            int k = max(badcharacter[haystack[j+i]] - needlelen + 1 + i, goodsuffix[i] - needlelen + 1 + i);
             j += k;
         }
     }
-    free(delta2);
+    free(goodsuffix);
     return NULL;
 }
 int main(int argc, char const *argv[])
 {
-    char *s1 = "HERE IS A SIMPLE EXAMPLE BABCDAB";
-    //char *s2 = "BABCDAB";
+    char *s1 = "HERE IS A SIMPLE EXAMPLE";
+    //char *s2 = "BABCDAB"
     char *s3 = "EXAMPLE";
     //char *idx1 = (char *)boyer_moore((uint8_t*)s1, (uint32_t)strlen(s1), (uint8_t*)s2, (uint32_t)strlen(s2));
     char *idx2 = (char *)boyer_moore((uint8_t*)s1, (uint32_t)strlen(s1), (uint8_t*)s3, (uint32_t)strlen(s3));
