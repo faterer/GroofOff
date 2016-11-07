@@ -7,7 +7,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
-/*
+
 int main(int argc, char** argv)
 {
 	const string delims(" \t,.;");
@@ -37,6 +37,3 @@ int main(int argc, char** argv)
 		cout << endl;
 	}
 }
-*/
-
-

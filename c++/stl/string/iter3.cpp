@@ -8,7 +8,7 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-/*
+
 int main()
 {
 	const string hello("Hello, how are you?");
@@ -30,6 +30,3 @@ int main()
 	s.erase(unique(s.begin(), s.end()), s.end());
 	cout << "no duplicates: " << s << endl;
 }
-*/
-
-

@@ -7,7 +7,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
-/*
+
 int main(int argc, char* argv[])
 {
 	string filename, basename, extname, tmpname;
@@ -45,6 +45,3 @@ int main(int argc, char* argv[])
 		cout << filename << " => " << tmpname << endl;
 	}
 }
-*/
-
-

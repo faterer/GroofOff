@@ -26,7 +26,7 @@ public:
 private:
 	const locale& loc;
 };
-/*
+
 int main()
 {
 	string contents;
@@ -40,5 +40,3 @@ int main()
 				bothWhiteSpaces(cin.getloc()));
 	cout << contents;
 }
-*/
-

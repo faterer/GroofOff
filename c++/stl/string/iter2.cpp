@@ -9,11 +9,12 @@
 #include <algorithm>
 
 using namespace std;
-/*
+
 bool nocase_compare(char c1, char c2)
 {
 	return toupper(c1) == toupper(c2);
 }
+
 int main()
 {
 	string s1("This is a string");
@@ -44,6 +45,3 @@ int main()
 			 << endl;
 	}
 }
-*/
-
-
