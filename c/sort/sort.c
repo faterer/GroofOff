@@ -28,8 +28,7 @@ void quick_sort(int v[], int left, int right)
         return;
     swap(v, left, (left + right) / 2);
     last = left;
-    for (i = left + 1; i <= right; i++)
-    {
+    for (i = left + 1; i <= right; i++) {
         if (v[i] < v[left]) {
             swap(v, ++last, i);
         }
