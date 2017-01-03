@@ -81,39 +81,27 @@ int main()
 	}
 	
 	printf("\n +++ rod_cutting +++ \n");
-	count = 0;
-	price = rod_cutting(price, 4);
-	printf("compute 4 running %d loop\n", count);
-
-	printf("\n +++ bottom_up_rod_cut +++ \n");
-	count = 0;
-	price = bottom_up_rod_cut(price, 4);
-	printf("compute 4 running %d loop\n", count);
-
-	printf("\n +++ memoized_rod_cut +++ \n");
-	count = 0;
-	price = memoized_rod_cut(price, 4);
-	printf("compute 4 running %d loop\n", count);
-
-	printf("\n +++ rod_cutting +++ \n");
 	for(int i = 1; i <= 10; i++) {
-		int price = 0; 
+		int price = 0;
+		count = 0;
 		price = rod_cutting(price, i);
-		printf("length: %d\tprice: %d\n", i, price);
+		printf("length: %d\tprice: %d\tloop count: %d\n", i, price, count);
 	}
 
 	printf("\n +++ bottom_up_rod_cut +++ \n");
 	for(int i = 1; i <= 10; i++) {
-		int price = 0; 
+		int price = 0;
+		count = 0;
 		price = bottom_up_rod_cut(price, i);
-		printf("length: %d\tprice: %d\n", i, price);
+		printf("length: %d\tprice: %d\tloop count: %d\n", i, price, count);
 	}
 
 	printf("\n +++ memoized_rod_cut +++ \n");
 	for(int i = 1; i <= 10; i++) {
-		int price = 0; 
+		int price = 0;
+		count = 0;
 		price = memoized_rod_cut(price, i);
-		printf("length: %d\tprice: %d\n", i, price);
+		printf("length: %d\tprice: %d\tloop count: %d\n", i, price, count);
 	}
 
 	return 0;
