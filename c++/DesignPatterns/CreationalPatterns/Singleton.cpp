@@ -197,5 +197,5 @@ private:
 
 int main()
 {
-	Singleton<Test>::instance.setName("only one");
+	Singleton<Test>::instance().setName("only one");
 }

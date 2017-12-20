@@ -17,7 +17,6 @@ public:
 	  company_(company),
 	  university_(university)
 	{
-	
 	}
 	
 	

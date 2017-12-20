@@ -12,7 +12,7 @@
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
 // From The C programming Language
-void swap(int v[], size_t i, int j)
+void swap(int v[], int i, int j)
 {
     int temp;
     temp = v[i];
