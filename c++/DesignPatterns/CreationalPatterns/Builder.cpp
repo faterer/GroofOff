@@ -83,7 +83,7 @@ public:
 	}
 private:
 	PizzaBuilder* m_pizzaBuilder;
-}
+};
 
 int main()
 {
