@@ -12,7 +12,7 @@ unsigned int hashpjw(const void *key)
 	    unsigned int tmp;
 		val = (val << 4) + (*ptr);
 		
-		if (tmp = (val & 0xf0000000)
+		if (tmp = (val & 0xf0000000))
 		{
 		    val = val ^ (tmp >> 24);
             val = val ^ tmp;			
