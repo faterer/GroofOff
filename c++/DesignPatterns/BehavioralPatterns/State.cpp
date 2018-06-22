@@ -23,4 +23,4 @@ class FighterState {
 public:
 	static std::shared_ptr<StandingState> standing;
 	static std::shared_ptr<DivingState>
-}
+};

@@ -67,7 +67,7 @@ private:
 	~Singleton();
 	Singleton(const Singleton &);
 	const Singleton &operator=(const Singleton &);
-}
+};
 
 
 //Variations of Singletons:
