@@ -20,8 +20,8 @@ func main() {
 	//len return the length of the slice as expected.
 	fmt.Println("len:", len(s))
 
-	//In addition to these basic operations, slices support several more that make them richer than arrays. 
-	//One is the builtin append, which returns a slice containing one or more new values. 
+	//In addition to these basic operations, slices support several more that make them richer than arrays.
+	//One is the builtin append, which returns a slice containing one or more new values.
 	//Note that we need to accept a return value from append as we may get a new slice value.
 	s = append(s, "d")
 	s = append(s, "e", "f")
@@ -32,7 +32,7 @@ func main() {
 	copy(c, s)
 	fmt.Println("cpy:", c)
 
-	//Slices support a “slice” operator with the syntax slice[low:high]. 
+	//Slices support a “slice” operator with the syntax slice[low:high].
 	//For example, this gets a slice of the elements s[2], s[3], and s[4].
 	l := s[2:5]
 	fmt.Println("sl1:", l)
