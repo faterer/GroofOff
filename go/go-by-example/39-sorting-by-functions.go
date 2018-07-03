@@ -21,9 +21,15 @@ func (s byLength) Less(i, j int) bool {
 	return len(s[i]) < len(s[j])
 }
 
+//With all of this in place, we can now implement our custom sort by casting the original fruits slice to byLength, and then use sort.Sort on that typed slice.
 func main() {
 	fruits := []string{"peach", "banana", "kiwi"}
+	sort.Strings(fruits)
+	fmt.Println(fruits)
 	sort.Sort(byLength(fruits))
 	fmt.Println(fruits)
 }
+
+//Running our program shows a list sorted by string length, as desired
+//By following this same pattern of creating a custom type, implementing the three Interface methods on that type, and then calling sort.Sort on a collection of that custom type, we can sort Go slices by arbitrary functions.
 
