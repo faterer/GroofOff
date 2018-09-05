@@ -1,3 +1,6 @@
+#include <iostream>
+#include <string>
+
 class AbstractProductA
 {
 public:
@@ -79,3 +82,7 @@ public:
     }
     ~AbstractFactory2() {}
 };
+
+int main() {
+
+}

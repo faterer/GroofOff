@@ -1,24 +1,27 @@
 #include <iostream>
+#include <string>
 
 class Product
 {
 public:
     virtual std::string getName() const = 0;
-    virtual ~Product() {};
+    virtual ~Product() {}
 };
 
-class ConcreteProductA()
+class ConcreteProductA : public Product
 {
 public:
-    std::string getName() {
+    ~ConcreteProductA() {}
+    std::string getName() const {
         return "product A";
     }
 };
 
-class ConcreteProductB()
+class ConcreteProductB : public Product
 {
 public:
-    std::string getName() {
+    ~ConcreteProductB() {}
+    std::string getName() const {
         return "product B";
     }
 };
@@ -26,25 +29,27 @@ public:
 class Factory
 {
 public:
-    virtual Product* createProduct() const = 0;
+    virtual Product* createProduct() = 0;
     virtual ~Factory() {};
 };
 
-class ConcreteProductAFactory()
+class ConcreteProductAFactory : public Factory
 {
 public:
+    ~ConcreteProductAFactory() {}
     Product* createProduct() {
         return new ConcreteProductA();
     }
-}
+};
 
-class ConcreteProductBFactory()
+class ConcreteProductBFactory : public Factory
 {
 public:
+    ~ConcreteProductBFactory() {}
     Product* createProduct() {
         return new ConcreteProductB();
     }
-}
+};
 
 int main() 
 {
