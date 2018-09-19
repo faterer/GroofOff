@@ -18,7 +18,7 @@ typedef struct List_
 	ListElmt *tail;
 }List;
 
-void list_init(List *list, void (*destory)(void *data));
+void list_init(List *list, void (*destroy)(void *data), int (*match)(const void *key1, const void *key2));
 void list_destroy(List *list);
 int  list_ins_next(List *list, ListElmt *element, const void *data);
 int  list_rem_next(List *list, ListElmt *element, void **data);
