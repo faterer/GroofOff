@@ -43,13 +43,17 @@ type Sample struct {
 	diagnosed       bool	
 }
 
+//var diagnosedCount int
+
 func CollectSample(robots []Robot) {
 	//take three samples
 	if len(robots[0].carrying) < 3 {
-		if sum(robots[0].expertise) < 8 {
+		if sum(robots[0].expertise) <= 5  {
 			GoAndConnect("SAMPLES", 1, robots[0].target)
-		} else {
+		} else if sum(robots[0].expertise) <= 8 {
 			GoAndConnect("SAMPLES", 2, robots[0].target)
+		} else {
+		    GoAndConnect("SAMPLES", 3, robots[0].target)
 		}
 	} else {
 		fmt.Println("GOTO DIAGNOSIS")
@@ -58,15 +62,16 @@ func CollectSample(robots []Robot) {
 
 func AnalyzeSample(robots []Robot) {
 	var sampleCount int
+
 	//diagnose samples
 	for sampleCount = 0; sampleCount < len(robots[0].carrying); sampleCount++ {
 		sample := robots[0].carrying[sampleCount]
 		if sample.diagnosed {
 			//if cost is more than available, transfer sample to cloud
 			for i := 0; i < 5; i++ {
-				if sample.cost[i] - robots[0].expertise[i] > 5 {
+				if sample.cost[i] - robots[0].expertise[i] > robots[0].availableM[i] {
 					GoAndConnect("DIAGNOSIS", sample.sampleId, robots[0].target)
-					break
+					return
 				}
 			}
 		} else {
@@ -75,18 +80,29 @@ func AnalyzeSample(robots []Robot) {
 		}
 	}
 
-	if sampleCount == len(robots[0].carrying) {
-		fmt.Println("GOTO MOLECULES")
+	if len(robots[0].carrying) == 0 {
+	    fmt.Println("GOTO SAMPLES")
+	    return
+	}
+	
+	if len(robots[0].carrying) == sampleCount {
+	    fmt.Println("GOTO MOLECULES")
 	}
 }
 
 func GatherMolecules(robots []Robot) {
 	var sampleCount int
     var moleculeCount int
+    
 	for sampleCount = 0; sampleCount < len(robots[0].carrying); sampleCount++ {
 		sample := robots[0].carrying[sampleCount]
 		for moleculeCount = 0; moleculeCount < 5; moleculeCount++ {
-		    if (robots[0].storage[moleculeCount] < sample.cost[moleculeCount] - robots[0].expertise[moleculeCount]) && (robots[0].availableM[moleculeCount] > 0) {
+		    
+		    if (robots[0].storage[moleculeCount] < sample.cost[moleculeCount] - robots[0].expertise[moleculeCount]) && (robots[0].availableM[moleculeCount] >= 0) {
+		        if robots[0].availableM[moleculeCount]  == 0 {
+		            fmt.Println("WAIT")
+		            return
+		        }
 		        GoAndConnect("MOLECULES", string("ABCDE"[moleculeCount]), robots[0].target)
 		        return
 		    }
@@ -139,7 +155,9 @@ func main() {
 		fmt.Scan(&a, &b, &c, &d, &e)
 		fmt.Fprintln(os.Stderr, a, b, c, d, e)
 	}
-
+	
+    //diagnosedCount = 0
+    
 	for {
 		var robot Robot
 		var robots []Robot
@@ -182,7 +200,7 @@ func main() {
 				robots[carriedBy].carrying = append(robots[carriedBy].carrying, sample)
 			}
 		}
-
+        
 		if robots[0].eta > 0 {
 			fmt.Println("")
 		} else {
