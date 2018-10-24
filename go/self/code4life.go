@@ -34,29 +34,29 @@ type Robot struct {
 }
 
 type Sample struct {
-	sampleId      int
-	carriedBy     int
-	rank          int
-	expertiseGain string
-	health        int
-	cost          [5]int
-	diagnosed     bool
+	sampleId        int
+	carriedBy       int
+	rank            int
+	expertiseGain   string
+	health          int
+	cost            [5]int
+	diagnosed       bool	
 }
 
-func TakeSample(robots []Robot) {
+func CollectSample(robots []Robot) {
 	//take three samples
 	if len(robots[0].carrying) < 3 {
 		if sum(robots[0].expertise) < 8 {
-			GoAndConnect("SAMPLES", 2, robots[0].target)
+			GoAndConnect("SAMPLES", 1, robots[0].target)
 		} else {
-			GoAndConnect("SAMPLES", 3, robots[0].target)
+			GoAndConnect("SAMPLES", 2, robots[0].target)
 		}
 	} else {
 		fmt.Println("GOTO DIAGNOSIS")
 	}
 }
 
-func DiagnosisSample(robots []Robot) {
+func AnalyzeSample(robots []Robot) {
 	var sampleCount int
 	//diagnose samples
 	for sampleCount = 0; sampleCount < len(robots[0].carrying); sampleCount++ {
@@ -64,7 +64,7 @@ func DiagnosisSample(robots []Robot) {
 		if sample.diagnosed {
 			//if cost is more than available, transfer sample to cloud
 			for i := 0; i < 5; i++ {
-				if sample.cost[i]-robots[0].expertise[i] > 5 {
+				if sample.cost[i] - robots[0].expertise[i] > 5 {
 					GoAndConnect("DIAGNOSIS", sample.sampleId, robots[0].target)
 					break
 				}
@@ -75,19 +75,59 @@ func DiagnosisSample(robots []Robot) {
 		}
 	}
 
-	fmt.Fprintln(os.Stderr, sampleCount)
-
 	if sampleCount == len(robots[0].carrying) {
 		fmt.Println("GOTO MOLECULES")
 	}
 }
 
-func GetMolecules(robots []Robot) {
+func GatherMolecules(robots []Robot) {
 	var sampleCount int
-
+    var moleculeCount int
 	for sampleCount = 0; sampleCount < len(robots[0].carrying); sampleCount++ {
 		sample := robots[0].carrying[sampleCount]
+		for moleculeCount = 0; moleculeCount < 5; moleculeCount++ {
+		    if (robots[0].storage[moleculeCount] < sample.cost[moleculeCount] - robots[0].expertise[moleculeCount]) && (robots[0].availableM[moleculeCount] > 0) {
+		        GoAndConnect("MOLECULES", string("ABCDE"[moleculeCount]), robots[0].target)
+		        return
+		    }
+		}
+		
+		for moleculeCount = 0; moleculeCount < 5; moleculeCount++ {
+		    if (robots[0].storage[moleculeCount] < sample.cost[moleculeCount] - robots[0].expertise[moleculeCount]) {
+                break
+		    }
+		}
+		
+        if moleculeCount == 5 {
+            fmt.Println("GOTO LABORATORY")
+            break
+        }
 	}
+}
+
+func ProduceMedicines(robots []Robot) {
+    var sampleCount int
+    var moleculeCount int
+    for sampleCount = 0; sampleCount < len(robots[0].carrying); sampleCount++ {
+        sample := robots[0].carrying[sampleCount]
+		for moleculeCount = 0; moleculeCount < 5; moleculeCount++ {
+		    if (robots[0].storage[moleculeCount] < sample.cost[moleculeCount] - robots[0].expertise[moleculeCount]) {
+                break
+		    }
+		}
+		
+        if moleculeCount == 5 {
+            GoAndConnect("LABORATORY", sample.sampleId, robots[0].target)
+            break
+        } else {
+            fmt.Println("GOTO MOLECULES")
+            break
+        }
+    }
+    
+    if len(robots[0].carrying) == 0 {
+        fmt.Println("GOTO SAMPLES")
+    }
 }
 
 func main() {
@@ -123,7 +163,7 @@ func main() {
 		fmt.Scan(&sampleCount)
 		var sample Sample
 		fmt.Fprintln(os.Stderr, robots[0])
-		fmt.Fprintln(os.Stderr, robots[1])
+		//fmt.Fprintln(os.Stderr, robots[1])
 
 		for i := 0; i < sampleCount; i++ {
 			var sampleId, carriedBy, rank int
@@ -152,83 +192,18 @@ func main() {
 				fmt.Println("GOTO SAMPLES")
 				break
 			case "SAMPLES":
-				//take samples
-				TakeSample(robots)
-				//fmt.Println("GOTO DIAGNOSIS")
+				CollectSample(robots)
 				break
 			case "DIAGNOSIS":
-				DiagnosisSample(robots)
+				AnalyzeSample(robots)
 				break
 			case "MOLECULES":
-				GetMolecules(robots)
-				fmt.Println("GOTO LABORATORY")
+				GatherMolecules(robots)
 				break
 			case "LABORATORY":
-				fmt.Println("GOTO SAMPLES")
+				ProduceMedicines(robots)
 				break
 			}
 		}
-		/*
-
-		   if len(robots[0].carrying) < 3 && !produceCompleted {
-		       if sum(robots[0].expertise) < 8 {
-		           GoAndConnect("SAMPLES", 2, robots[0].target)
-		       } else {
-		           GoAndConnect("SAMPLES", 3, robots[0].target)
-		       }
-		   } else {
-		       if len(robots[0].carrying) == 0 {
-		           produceCompleted = false
-		           GoAndConnect("SAMPLES", 2, robots[0].target)
-		       } else {
-
-		           if !robots[0].carrying[0].diagnosed {
-		               GoAndConnect("DIAGNOSIS", robots[0].carrying[0].sampleId, robots[0].target)
-		           } else if len(robots[0].carrying) > 1 && !robots[0].carrying[1].diagnosed {
-		               GoAndConnect("DIAGNOSIS", robots[0].carrying[1].sampleId, robots[0].target)
-		           } else if len(robots[0].carrying) > 2 && !robots[0].carrying[2].diagnosed {
-		               GoAndConnect("DIAGNOSIS", robots[0].carrying[2].sampleId, robots[0].target)
-		           } else {
-		               notAvail := false
-		               cantProduce := false
-		               sample = robots[0].carrying[0]
-		               for j := 0;j < 5 ;j++ {
-		                   if robots[0].carrying[0].cost[j] - robots[0].expertise[j] > 5 {
-		                       cantProduce = true
-		                       break
-		                   }
-		               }
-
-		               if cantProduce {
-		                   GoAndConnect("DIAGNOSIS", sample.sampleId, robots[0].target)
-		               } else {
-		                   var neededMolecule string
-		                   for j := 0; j < 5; j++ {
-		                       if robots[0].storage[j] < sample.cost[j] - robots[0].expertise[j] {
-		                           if robots[0].availableM[j] == 0 {
-		                               notAvail = true
-		                           }
-		                           neededMolecule = string("ABCDE"[j])
-		                           break
-		                       }
-		                   }
-
-		                   if neededMolecule != "" {
-		                       if notAvail {
-		                           fmt.Println("WAIT")
-		                       } else {
-		                           GoAndConnect("MOLECULES", neededMolecule, robots[0].target)
-		                       }
-		                   } else {
-		                       if robots[0].target == "LABORATORY" {
-		                           produceCompleted = true
-		                       }
-		                       GoAndConnect("LABORATORY", sample.sampleId, robots[0].target)
-		                   }
-		               }
-		           }
-		       }
-		   }
-		*/
 	}
 }
