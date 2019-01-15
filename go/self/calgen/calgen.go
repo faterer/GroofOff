@@ -50,7 +50,21 @@ func MinusGen() (string) {
 	return result
 }
 
-func main() {
+func MultiplyGen() string {
+	num1 := r1.Intn(8) + 2
+	num2 := r1.Intn(8) + 2
+	result := fmt.Sprintf("%2d × %2d =", num1, num2)
+	return result	
+}
+
+func DivideGen() string {
+	num1 := r1.Intn(8) + 2
+	num2 := r1.Intn(8) + 2
+	result := fmt.Sprintf("%2d ÷ %2d =", num1 * num2, num1)
+	return result		
+}
+
+func GenOneDay() {
 	s1 = rand.NewSource(time.Now().UnixNano())	
 	r1 = rand.New(s1)
 	fmt.Print("日期：")
@@ -89,6 +103,38 @@ func main() {
 		fmt.Printf("\t")
 	}
 	fmt.Println()	
+	for i := 0; i < 4; i++ {
+		fmt.Printf(MultiplyGen())
+		fmt.Printf("\t")
+	}
+	fmt.Println()	
+	for i := 0; i < 4; i++ {
+		fmt.Printf(DivideGen())
+		fmt.Printf("\t")
+	}
+	fmt.Println()
+	for i := 0; i < 4; i++ {
+		fmt.Printf(MultiplyGen())
+		fmt.Printf("\t")
+	}
+	fmt.Println()	
+	for i := 0; i < 4; i++ {
+		fmt.Printf(DivideGen())
+		fmt.Printf("\t")
+	}
+	fmt.Println()
+	for i := 0; i < 2; i++ {
+		fmt.Printf(MultiplyGen())
+		fmt.Printf("\t")
+	}
+	for i := 0; i < 2; i++ {
+		fmt.Printf(DivideGen())
+		fmt.Printf("\t")
+	}
+	fmt.Println()	
+}
+/*
+func Backup() {
 	fmt.Println("笔算：")
 	for i := 0; i < 3; i++ {
 		fmt.Printf(AddGen())
@@ -108,5 +154,11 @@ func main() {
 		fmt.Printf(MinusGen())
 		fmt.Printf("\t\t")
 	}
-	fmt.Println()
+}
+*/
+
+func main() {
+	for i:=0;i<1;i++ {
+		GenOneDay()
+	}
 }
