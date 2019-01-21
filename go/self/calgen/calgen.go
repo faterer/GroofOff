@@ -24,18 +24,18 @@ func Min(x, y int) int {
 
 func RandDataGen() (int, int) {
 
-	num1 := r1.Intn(99) + 1
-	num2 := r1.Intn(99) + 1
+	num1 := r1.Intn(89) + 10
+	num2 := r1.Intn(89) + 10
 	return num1, num2
 }
 
-func AddGen() (string) {
+func AddGen() string {
 	var sum, num1, num2 int
 	for {
 		num1, num2 = RandDataGen()
 		sum = num1 + num2
 		if sum < 100 {
-			break;
+			break
 		}
 	}
 
@@ -43,7 +43,7 @@ func AddGen() (string) {
 	return result
 }
 
-func MinusGen() (string) {
+func MinusGen() string {
 	var num1, num2 int
 	num1, num2 = RandDataGen()
 	result := fmt.Sprintf("%2d - %2d =", Max(num1, num2), Min(num1, num2))
@@ -54,18 +54,19 @@ func MultiplyGen() string {
 	num1 := r1.Intn(8) + 2
 	num2 := r1.Intn(8) + 2
 	result := fmt.Sprintf("%2d × %2d =", num1, num2)
-	return result	
+	return result
 }
 
 func DivideGen() string {
 	num1 := r1.Intn(8) + 2
 	num2 := r1.Intn(8) + 2
-	result := fmt.Sprintf("%2d ÷ %2d =", num1 * num2, num1)
-	return result		
+	result := fmt.Sprintf("%2d ÷ %2d =", num1*num2, num1)
+	return result
 }
 
-func GenOneDay() {
-	s1 = rand.NewSource(time.Now().UnixNano())	
+func GenOneDay(day int) {
+	seed := time.Now().UnixNano() + (int64)(100*day)
+	s1 = rand.NewSource(seed)
 	r1 = rand.New(s1)
 	fmt.Print("日期：")
 	fmt.Print("\t\t\t")
@@ -73,7 +74,6 @@ func GenOneDay() {
 	fmt.Print("\t\t\t")
 	fmt.Print("准确率：")
 	fmt.Println()
-	fmt.Println("口算：")
 	for i := 0; i < 4; i++ {
 		fmt.Printf(AddGen())
 		fmt.Printf("\t")
@@ -102,12 +102,12 @@ func GenOneDay() {
 		fmt.Printf(MinusGen())
 		fmt.Printf("\t")
 	}
-	fmt.Println()	
+	fmt.Println()
 	for i := 0; i < 4; i++ {
 		fmt.Printf(MultiplyGen())
 		fmt.Printf("\t")
 	}
-	fmt.Println()	
+	fmt.Println()
 	for i := 0; i < 4; i++ {
 		fmt.Printf(DivideGen())
 		fmt.Printf("\t")
@@ -117,7 +117,7 @@ func GenOneDay() {
 		fmt.Printf(MultiplyGen())
 		fmt.Printf("\t")
 	}
-	fmt.Println()	
+	fmt.Println()
 	for i := 0; i < 4; i++ {
 		fmt.Printf(DivideGen())
 		fmt.Printf("\t")
@@ -131,8 +131,9 @@ func GenOneDay() {
 		fmt.Printf(DivideGen())
 		fmt.Printf("\t")
 	}
-	fmt.Println()	
+	fmt.Println()
 }
+
 /*
 func Backup() {
 	fmt.Println("笔算：")
@@ -146,7 +147,7 @@ func Backup() {
 	for i := 0; i < 3; i++ {
 		fmt.Printf(MinusGen())
 		fmt.Printf("\t\t")
-	}	
+	}
 	for i := 0; i < 6; i++ {
 		fmt.Println()
 	}
@@ -158,7 +159,7 @@ func Backup() {
 */
 
 func main() {
-	for i:=0;i<1;i++ {
-		GenOneDay()
+	for i := 0; i < 20; i++ {
+		GenOneDay(i)
 	}
 }
