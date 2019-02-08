@@ -38,4 +38,5 @@ func mergeKLists(lists []*ListNode) *ListNode {
 
 func main() {
     fmt.Println("MergeKLists")
+    fmt.Println("MergeKLists")
 }
