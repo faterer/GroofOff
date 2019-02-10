@@ -45,17 +45,12 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
     fmt.Print("\n")
         
     if n % 2 == 0 {
-        fmt.Println("even")
-        fmt.Println(nums[n/2])
-	fmt.Println(nums[(n-1)/2])
         return float64((float64(nums[n/2]) + float64(nums[(n-1)/2])) / 2.0)
     } else {
-	fmt.Println("odd")
         return float64(nums[n/2])
     }
 }
 
 func main() {
 	fmt.Println(findMedianSortedArrays([]int{1,2}, []int{3,4}))
-
 }
