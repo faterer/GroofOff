@@ -20,12 +20,9 @@ void swap(int v[], int i, int j)
     v[j] = temp;
 }
 
-void quick_sort(int v[], int left, int right)
+int partition(int v[], int left, int right)
 {
     int i, last;
-
-    if (left >= right)
-        return;
     swap(v, left, (left + right) / 2);
     last = left;
     for (i = left + 1; i <= right; i++) {
@@ -34,6 +31,15 @@ void quick_sort(int v[], int left, int right)
         }
     }
     swap(v, left, last);
+    return last;
+}
+
+void quick_sort(int v[], int left, int right)
+{
+    int last;
+    if (left >= right)
+        return;
+    last = partition(v, left, right);
     quick_sort(v, left, last - 1);
     quick_sort(v, last + 1, right);
 }
@@ -142,6 +148,17 @@ void shell_sort(int a[], int n)
 int main()
 {
     int a[] = {2,1,5,8,4,6};
+    quick_sort(a, 0, ARRAY_SIZE(a)-1);
+    printf("quick_sort: ");
+    for (size_t i=0;i<ARRAY_SIZE(a);i++)
+        printf("%d,", a[i]);
+    printf("\n");
+
+    shuffle_array(a, ARRAY_SIZE(a));
+    for (size_t i=0;i<ARRAY_SIZE(a);i++)
+        printf("%d,", a[i]);
+    printf("\n");
+    
     quick_sort_2(a, 0, ARRAY_SIZE(a)-1);
     printf("quick_sort_2: ");
     for (size_t i=0;i<ARRAY_SIZE(a);i++)
