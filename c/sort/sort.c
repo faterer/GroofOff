@@ -22,26 +22,26 @@ void swap(int v[], int i, int j)
 
 int partition(int v[], int left, int right)
 {
-    int i, last;
+    int i, pivot;
     swap(v, left, (left + right) / 2);
-    last = left;
+    pivot = left;
     for (i = left + 1; i <= right; i++) {
         if (v[i] < v[left]) {
-            swap(v, ++last, i);
+            swap(v, ++pivot, i);
         }
     }
-    swap(v, left, last);
-    return last;
+    swap(v, left, pivot);
+    return pivot;
 }
 
 void quick_sort(int v[], int left, int right)
 {
-    int last;
+    int pivot;
     if (left >= right)
         return;
-    last = partition(v, left, right);
-    quick_sort(v, left, last - 1);
-    quick_sort(v, last + 1, right);
+    pivot = partition(v, left, right);
+    quick_sort(v, left, pivot - 1);
+    quick_sort(v, pivot + 1, right);
 }
 
 
