@@ -6,6 +6,11 @@ import (
 	"os"
 )
 
+//In order to handle masking operation, there is the type
+//type IPMask []byte
+
+
+
 func main()  {
 	if len(os.Args) != 2 {
 		fmt.Fprintf(os.Stderr, "Usage: %s dotted-ip-addr\n", os.Args[0])
