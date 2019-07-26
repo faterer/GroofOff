@@ -68,9 +68,6 @@ func checkSum(msg []byte) uint16  {
 	return answer
 }
 
-
-
-
 func checkError(err error) {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Fatal Error: %s", err.Error())
