@@ -124,9 +124,9 @@ func DivideGen() string {
 }
 
 func DivideGen100() string {
-	num1 := r1.Intn(8) + 2
+	num1 := r1.Intn(80) + 20
 	num2 := r1.Intn(8) + 2
-	result := fmt.Sprintf("%d ÷ %2d =", num1*num2*100, num2)
+	result := fmt.Sprintf("%d ÷ %2d =", num1*num2, num2)
 	return result
 }
 
@@ -228,7 +228,7 @@ func GenOneDay(day int) {
 	fmt.Println()
 	fmt.Print("(一)口算：")
 	fmt.Println()
-	for j := 0; j < 2; j++ {
+	for j := 0; j < 1; j++ {
 		for i := 0; i < 4; i++ {
 			fmt.Printf(AddGen())
 			fmt.Printf("\t")
@@ -240,15 +240,15 @@ func GenOneDay(day int) {
 		}
 		fmt.Println()
 	}
-	for i := 0; i < 2; i++ {
-		fmt.Printf(AddGen())
-		fmt.Printf("\t")
-	}
-	for i := 0; i < 2; i++ {
-		fmt.Printf(MinusGen())
-		fmt.Printf("\t")
-	}
-	fmt.Println()
+	//for i := 0; i < 2; i++ {
+	//	fmt.Printf(AddGen())
+	//	fmt.Printf("\t")
+	//}
+	//for i := 0; i < 2; i++ {
+	//	fmt.Printf(MinusGen())
+	//	fmt.Printf("\t")
+	//}
+	//fmt.Println()
 	for i := 0; i < 4; i++ {
 		fmt.Printf(MultiplyGen())
 		fmt.Printf("\t")
@@ -258,16 +258,16 @@ func GenOneDay(day int) {
 		fmt.Printf(DivideGen100())
 		fmt.Printf("\t")
 	}
-	fmt.Println()
-	for i := 0; i < 4; i++ {
-		fmt.Printf(MultiplyGen())
-		fmt.Printf("\t")
-	}
-	fmt.Println()
-	for i := 0; i < 4; i++ {
-		fmt.Printf(DivideGen100())
-		fmt.Printf("\t")
-	}
+	//fmt.Println()
+	//for i := 0; i < 4; i++ {
+	//	fmt.Printf(MultiplyGen())
+	//	fmt.Printf("\t")
+	//}
+	//fmt.Println()
+	//for i := 0; i < 4; i++ {
+	//	fmt.Printf(DivideGen100())
+	//	fmt.Printf("\t")
+	//}
 	fmt.Println()
 	for i := 0; i < 2; i++ {
 		fmt.Printf(DecimalAddGen())
@@ -336,7 +336,7 @@ func GenOneDay(day int) {
 }
 
 func main() {
-	for i := 0; i < 30; i++ {
+	for i := 0; i < 1; i++ {
 		GenOneDay(i)
 		//fmt.Println()
 	}
